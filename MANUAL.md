@@ -18,7 +18,7 @@
         │
         ├─  自由讨论（不加前缀）
         │
-        ├─  # Design + # Update  ──→  改任务+规格
+        ├─  # Design + # Update  ─��→  改任务+规格
         │
         ├─  # Design + # Spec    ──→  只改规格
         │
@@ -108,33 +108,62 @@
 # Impl
 ```
 
-.github/copilot-instructions.md with contents: # General Instruction
+Agent 会读 `Copilot_Impl.md`，找到没有 `[DONE]` 的任务继续执行。
 
-- `REPO-ROOT` refers to the root directory of this repository.
-- Read all files in `REPO-ROOT/.github/guidelines/` for project-specific coding rules, build commands, and conventions.
-- Before writing to a source file, read it again and make sure you respect my parallel editing.
-- If any `*.prompt.md` file is referenced, take immediate action following the instructions in that file.
+---
 
-## Project Documentation
+## Doc Mode（文档模式）
 
-Project knowledge documents are in `REPO-ROOT/doc/`. The index is `REPO-ROOT/doc/README.md`.
+### 一键初始化文档库
 
-- **Before Design or Impl**: read `doc/README.md` to find any relevant documentation. If a linked document exists for the module you are working on, read it.
-- **After Impl completes**: check if any document in `doc/` needs updating. If so, note it at the end of `Copilot_Impl.md` under `# DOC IMPACT` (what to add/change and why). Do NOT modify `doc/` during Impl — documentation updates are done in Doc mode.
+```
+# Doc
+# Setup
+```
 
-## Workspace Files
+读取整个代码库，自动生成 `doc/README.md` + 各模块文档。仅需执行一次。
 
-Temporary design and implementation documents are in `REPO-ROOT/.github/workspace/`:
-- `Copilot_Design.md`: design document and specification for the current task.
-- `Copilot_Impl.md`: implementation log, compile/test results, and fixing attempts.
-- `Copilot_Doc.md`: documentation research scratch pad.
+### 研究一个主题
 
-These files are gitignored and never committed.
+```
+# Doc
+# Topic
+<主题描述>
+```
 
-### Important Rules for Writing Markdown Files
+研究源码，将发现写入 `Copilot_Doc.md` 的 INSIGHT 段。
 
-- It is totally fine to have multiple top level `# Topic`.
-- When mentioning a C++ name in markdown file:
-  - If it is defined in the standard C++ library or third-party library, use the full name.
-  - If it is defined in the source code, use the full name if there is ambiguity, and then mention the file containing its definition.
-- Code references must be wrapped in backtick quotes.
+### 追问
+
+```
+# Doc
+# Ask
+<你的问题>
+```
+
+基于当前研究内容进行 Q&A，补充 INSIGHT。
+
+### 起草文档
+
+```
+# Doc
+# Write
+```
+
+基于研究内容起草文档。审阅后说 **"commit"** 即可落盘到 `doc/` 并更新索引。
+
+---
+
+## 关键文件
+
+| 文件 | 说明 |
+|---|---|
+| `AGENTS.md` | 所有 AI agent 的统一入口（路由） |
+| `.github/copilot-instructions.md` | 通用规则手册 |
+| `.github/guidelines/*.md` | 项目专属编码规范、构建命令 |
+| `.github/prompts/design.prompt.md` | Design 模式的完整流程 |
+| `.github/prompts/impl.prompt.md` | Impl 模式的完整流程 |
+| `.github/prompts/doc.prompt.md` | Doc 模式的完整流程 |
+| `.github/workspace/Copilot_Design.md` | 设计文档（gitignored） |
+| `.github/workspace/Copilot_Impl.md` | 实现日志（gitignored） |
+| `.github/workspace/Copilot_Doc.md` | 文档研究草稿（gitignored） |
