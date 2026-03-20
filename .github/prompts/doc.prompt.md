@@ -27,7 +27,7 @@
 
 ## Identify the Action
 
-Find `# Setup` or `# Topic` or `# Ask` or `# Write` in the LATEST chat message.
+Find `# Setup` or `# Topic` or `# Ask` or `# Write` or `# Sync` in the LATEST chat message.
 Ignore any of these in chat history.
 If nothing: you were stopped — continue from `Copilot_Doc.md`.
 
@@ -138,6 +138,51 @@ Ignore this section if there is no "# Write" in the LATEST chat message.
 - After drafting, I will review. When I say "commit":
   - Create/update the target file in `doc/`.
   - Update `doc/README.md` to link the new document under the appropriate section.
+  - Keep `Copilot_Doc.md` unchanged (it's the scratch pad).
+
+### Sync Documentation after Impl (only when "# Sync" appears in the LATEST chat message)
+
+Ignore this section if there is no "# Sync" in the LATEST chat message.
+This action is used after a Design + Impl cycle to apply documentation changes.
+
+#### Step Y1. Read DOC IMPACT from Design and Impl
+
+- Read `REPO-ROOT/.github/workspace/Copilot_Design.md`. Find the `# DOC IMPACT` section (if it exists).
+- Read `REPO-ROOT/.github/workspace/Copilot_Impl.md`. Find the `# DOC IMPACT` section (if it exists).
+- Combine both into a unified list of documentation changes needed.
+  - If neither file has a `# DOC IMPACT` section, report "No doc impact found" and stop.
+
+#### Step Y2. Initialize scratch pad
+
+- Override `Copilot_Doc.md` with `# !!!DOC RESEARCH!!!`.
+- Add `# TOPIC` with content: "Sync documentation after Design + Impl cycle".
+- Under `# INSIGHT`, for each item in the combined DOC IMPACT list:
+  - Research the relevant source code to understand what actually changed.
+  - Verify the DOC IMPACT claims against the actual code (the Impl may have diverged from Design).
+  - Record findings.
+
+#### Step Y3. Identify affected doc files
+
+- Read `doc/README.md` and all linked documents.
+- For each DOC IMPACT item, determine:
+  - Does an existing doc file need to be **updated**? Which file, which section?
+  - Does a **new** doc file need to be created? What module does it belong to?
+  - Does `doc/README.md` index need updating?
+
+#### Step Y4. Draft changes under `# DOCUMENT`
+
+- For each affected doc file, write the updated/new content under `# DOCUMENT`.
+- Follow the same quality rules as `# Write`:
+  - Mention concrete names (classes, functions, files) — not vague abstractions.
+  - Use bullet points and multi-level markdown headings.
+  - Include all findings from `# INSIGHT` and `# QUESTIONS`. Reorganize, don't just copy.
+- Present all changes grouped by target file.
+
+#### Step Y5. Apply changes
+
+- After I review and say "commit":
+  - Create/update the target files in `doc/`.
+  - Update `doc/README.md` to link any new documents.
   - Keep `Copilot_Doc.md` unchanged (it's the scratch pad).
 
 ## Writing Rules for doc/ Files
