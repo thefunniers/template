@@ -185,6 +185,13 @@ This action is used after a Design + Impl cycle to apply documentation changes.
   - Update `doc/README.md` to link any new documents.
   - Keep `Copilot_Doc.md` unchanged (it's the scratch pad).
 
+#### Step Y6. Backup workspace
+
+- After changes are committed to `doc/`, execute `REPO-ROOT/.github/scripts/copilotBackup.ps1`.
+  - This backs up `Copilot_Design.md`, `Copilot_Impl.md`, and `Copilot_Doc.md` to `.github/backup/<timestamp>/` and cleans the workspace.
+  - The backup preserves a snapshot of the entire Design-Impl-Doc cycle for future reference.
+- After the script completes, the workspace is clean and ready for the next cycle.
+
 ## Writing Rules for doc/ Files
 
 - Title: `# <Topic Name>`.
