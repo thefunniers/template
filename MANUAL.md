@@ -32,7 +32,11 @@
 完成（检查 Copilot_Impl.md 末尾是否有 DOC IMPACT）
         │
         ▼
-# Doc + # Topic / # Ask / # Write  ──→  更新文档
+# Doc + # Sync            ──→  落盘到 doc/，说 "commit"
+        │
+        ▼
+自动备份 copilotBackup.ps1 ──→  .github/backup/<timestamp>/
+        │                        （清理 workspace，进入下一轮）
 ```
 
 ---
@@ -167,3 +171,5 @@ Agent 会读 `Copilot_Impl.md`，找到没有 `[DONE]` 的任务继续执行。
 | `.github/workspace/Copilot_Design.md` | 设计文档（gitignored） |
 | `.github/workspace/Copilot_Impl.md` | 实现日志（gitignored） |
 | `.github/workspace/Copilot_Doc.md` | 文档研究草稿（gitignored） |
+| `.github/scripts/copilotBackup.ps1` | Doc Sync 完成后自动备份 workspace 文件 |
+| `.github/backup/` | 备份存档目录（按时间戳分文件夹） |
