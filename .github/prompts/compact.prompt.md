@@ -8,14 +8,13 @@
 - Your goal is to produce a handoff document at `REPO-ROOT/.github/workspace/Copilot_Handoff.md`.
 - You are **NOT** allowed to modify any source code or `doc/` files.
 - The handoff document must be **self-contained** — a new agent reading only this document should be able to understand the project's workflow, conventions, and accumulated knowledge without access to the original repository.
-- The document serves two purposes:
-  1. **Session checkpoint** — allow resumption of the current work in a new context window.
-  2. **Knowledge transfer** — allow a new agent starting a different project to benefit from the patterns, decisions, and lessons learned here.
+- The document serves one purpose:
+  1. **Knowledge transfer** — allow a new agent starting a different project to benefit from the patterns, decisions, and lessons learned here.
 
 ## Copilot_Handoff.md Structure
 
 - `# !!!COMPACT!!!`: This file always begins with this title.
-- `# Session Checkpoint`: Current progress, key decisions, remaining work.
+- `# Project Snapshot`: Summary of current project state, key decisions, and notable work done.
 - `# Repository Profile`: What this repo is, its tech stack, directory layout, build/test commands.
 - `# Workflow Knowledge`: How the Design → Impl → Doc lifecycle works, what each workspace file is for.
 - `# Coding Conventions & Guidelines`: Rules from `.github/guidelines/`, naming, style, testing patterns.
@@ -41,15 +40,14 @@ Gather knowledge from the following sources in parallel:
 
 Override `Copilot_Handoff.md` with `# !!!COMPACT!!!` and fill in each section below.
 
-### Section 1 — Session Checkpoint
+### Section 1 — Project Snapshot
 
-Summarize the current session so that another agent can resume the work:
+Summarize the current state of the project so that a new agent starting on a related or successor project can quickly understand what was built and why:
 
-- **Current Progress**: What has been done so far (tasks completed, files changed, tests passing).
-- **Key Decisions**: The most important design/implementation choices made during this session, and why.
-- **Remaining Work**: A clear, ordered list of what still needs to be done.
-- **Blocking Issues**: Any unresolved problems, open questions, or known failures.
-- **Critical Data & References**: Specific function names, file paths, test names, or other references that are essential for continuing.
+- **What Was Built**: A concise description of what the project does and what was accomplished.
+- **Key Decisions**: The most important design/implementation choices made, and why.
+- **Notable Patterns**: Any particularly useful patterns, techniques, or conventions discovered during this project.
+- **Known Issues**: Any unresolved problems, open questions, or known limitations worth noting for the next project.
 
 ### Section 2 — Repository Profile
 
@@ -69,7 +67,7 @@ Explain the Design → Impl → Doc lifecycle precisely:
 - **Design Mode** (`# Design`): How `Copilot_Design.md` is structured (TASKS + SPECIFICATION), the three sub-commands (`# Problem`, `# Update`, `# Spec`), and what the document must contain before Impl begins.
 - **Impl Mode** (`# Impl`): How `Copilot_Impl.md` is structured (EXECUTION LOG, FIXING ATTEMPTS), how tasks are executed one by one with compile+test after each, and how to resume after interruption.
 - **Doc Mode** (`# Doc`): The five sub-commands (`# Setup`, `# Topic`, `# Ask`, `# Write`, `# Sync`), how `Copilot_Doc.md` is used as a scratch pad, and the `# Sync` → commit → backup flow.
-- **Compact Mode** (`# Compact`): When and why to use it; the output is `Copilot_Handoff.md`.
+- **Compact Mode** (`# Compact`): Used during project handoff — when passing knowledge from a completed project to an agent starting a new one; the output is `Copilot_Handoff.md`.
 - **Direct Mode**: No prefix — used for quick changes, discussions, or questions outside the formal workflow.
 - **DOC IMPACT**: How Design and Impl modes flag documentation needs, and how `# Doc # Sync` picks them up.
 - **Backup**: How `copilotBackup.ps1` archives the workspace after a completed cycle.

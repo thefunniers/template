@@ -7,7 +7,7 @@
 | Design | `# Design` | 设计阶段：分析需求、拆任务、写规格 |
 | Impl | `# Impl` | 实现阶段：按设计文档逐任务编码、编译、测试 |
 | Doc | `# Doc` | 文档阶段：研究源码、撰写/更新 `doc/` |
-| Compact | `# Compact` | 上下文压缩：生成结构化交接文档 `Copilot_Handoff.md` |
+| Compact | `# Compact` | 项目交接：生成结构化交接文档 `Copilot_Handoff.md` |
 | Direct | 不加任何 `#` 前缀 | 直接编码，或自由讨论 |
 
 ---
@@ -39,7 +39,7 @@
 自动备份 copilotBackup.ps1 ──→  .github/backup/<timestamp>/
         │                        （清理 workspace，进入下一轮）
         │
-        │   （任意时刻，上下文窗口接近上限时）
+        │   （新老项目交接时）
         ▼
 # Compact                ──→  生成 Copilot_Handoff.md（交接文档）
 ```
@@ -163,11 +163,11 @@ Agent 会读 `Copilot_Impl.md`，找到没有 `[DONE]` 的任务继续执行。
 
 ---
 
-## Compact Mode（上下文压缩模式）
+## Compact Mode（项目交接模式）
 
 ### 触发时机
 
-当会话上下文窗口接近上限、或需要将当前项目知识传递给新 agent 时使用：
+在新老项目交接时使用，将当前项目的规范、架构决策和经验教训传递给接手新项目的 agent：
 
 ```
 # Compact
@@ -175,16 +175,15 @@ Agent 会读 `Copilot_Impl.md`，找到没有 `[DONE]` 的任务继续执行。
 
 ### 功能
 
-生成结构化交接文档 `Copilot_Handoff.md`，包含两个核心用途：
+生成结构化交接文档 `Copilot_Handoff.md`，用于：
 
-1. **会话续接** — 让新上下文窗口中的 agent 可以无缝继续当前工作。
-2. **知识迁移** — 让在新仓库开始工作的 agent 能汲取当前项目的规范、架构决策和经验教训。
+1. **知识迁移** — 让接手新仓库的 agent 能汲取当前项目的规范、架构决策和经验教训。
 
 ### 交接文档结构
 
 | 章节 | 内容 |
 |---|---|
-| Session Checkpoint | 当前进展、关键决策、剩余任务、阻塞问题 |
+| Project Snapshot | 项目概况、关键决策、值得记录的模式与经验 |
 | Repository Profile | 项目用途、技术栈、目录结构、构建/测试命令、工作流模式 |
 | Workflow Knowledge | Design → Impl → Doc 完整生命周期说明 |
 | Coding Conventions & Guidelines | 编码规范、命名、测试模式、构建配置 |
