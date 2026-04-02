@@ -7,6 +7,7 @@
 | Design | `# Design` | 设计阶段：分析需求、拆任务、写规格 |
 | Impl | `# Impl` | 实现阶段：按设计文档逐任务编码、编译、测试 |
 | Doc | `# Doc` | 文档阶段：研究源码、撰写/更新 `doc/` |
+| Compact | `# Compact` | 上下文压缩：生成结构化交接文档 `Copilot_Handoff.md` |
 | Direct | 不加任何 `#` 前缀 | 直接编码，或自由讨论 |
 
 ---
@@ -18,7 +19,7 @@
         │
         ├─  自由讨论（不加前缀）
         │
-        ├─  # Design + # Update  ─��→  改任务+规格
+        ├─  # Design + # Update  ──→  改任务+规格
         │
         ├─  # Design + # Spec    ──→  只改规格
         │
@@ -37,6 +38,10 @@
         ▼
 自动备份 copilotBackup.ps1 ──→  .github/backup/<timestamp>/
         │                        （清理 workspace，进入下一轮）
+        │
+        │   （任意时刻，上下文窗口接近上限时）
+        ▼
+# Compact                ──→  生成 Copilot_Handoff.md（交接文档）
 ```
 
 ---
@@ -158,6 +163,41 @@ Agent 会读 `Copilot_Impl.md`，找到没有 `[DONE]` 的任务继续执行。
 
 ---
 
+## Compact Mode（上下文压缩模式）
+
+### 触发时机
+
+当会话上下文窗口接近上限、或需要将当前项目知识传递给新 agent 时使用：
+
+```
+# Compact
+```
+
+### 功能
+
+生成结构化交接文档 `Copilot_Handoff.md`，包含两个核心用途：
+
+1. **会话续接** — 让新上下文窗口中的 agent 可以无缝继续当前工作。
+2. **知识迁移** — 让在新仓库开始工作的 agent 能汲取当前项目的规范、架构决策和经验教训。
+
+### 交接文档结构
+
+| 章节 | 内容 |
+|---|---|
+| Session Checkpoint | 当前进展、关键决策、剩余任务、阻塞问题 |
+| Repository Profile | 项目用途、技术栈、目录结构、构建/测试命令、工作流模式 |
+| Workflow Knowledge | Design → Impl → Doc 完整生命周期说明 |
+| Coding Conventions & Guidelines | 编码规范、命名、测试模式、构建配置 |
+| Architecture & Design Decisions | 模块结构、关键 API、数据流、设计模式 |
+| Pitfalls & Lessons Learned | 踩过的坑、失败的方案、构建/测试奇异行为 |
+| Portable Recommendations | 可迁移到新仓库的通用建议和最佳实践 |
+
+### 交接文档位置
+
+`Copilot_Handoff.md` 保存在 `.github/workspace/`（gitignored），可手动拷贝到新会话中使用。
+
+---
+
 ## 关键文件
 
 | 文件 | 说明 |
@@ -168,8 +208,10 @@ Agent 会读 `Copilot_Impl.md`，找到没有 `[DONE]` 的任务继续执行。
 | `.github/prompts/design.prompt.md` | Design 模式的完整流程 |
 | `.github/prompts/impl.prompt.md` | Impl 模式的完整流程 |
 | `.github/prompts/doc.prompt.md` | Doc 模式的完整流程 |
+| `.github/prompts/compact.prompt.md` | Compact 模式的完整流程 |
 | `.github/workspace/Copilot_Design.md` | 设计文档（gitignored） |
 | `.github/workspace/Copilot_Impl.md` | 实现日志（gitignored） |
 | `.github/workspace/Copilot_Doc.md` | 文档研究草稿（gitignored） |
+| `.github/workspace/Copilot_Handoff.md` | 上下文压缩交接文档（gitignored） |
 | `.github/scripts/copilotBackup.ps1` | Doc Sync 完成后自动备份 workspace 文件 |
 | `.github/backup/` | 备份存档目录（按时间戳分文件夹） |
