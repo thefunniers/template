@@ -27,7 +27,7 @@
 
 ## Identify the Action
 
-Find `# Setup` or `# Topic` or `# Ask` or `# Write` or `# Sync` in the LATEST chat message.
+Find `# Setup` or `# Topic` or `# Ask` or `# Write` or `# Sync` or `# Learn` in the LATEST chat message.
 Ignore any of these in chat history.
 If nothing: you were stopped — continue from `Copilot_Doc.md`.
 
@@ -145,12 +145,13 @@ Ignore this section if there is no "# Write" in the LATEST chat message.
 Ignore this section if there is no "# Sync" in the LATEST chat message.
 This action is used after a Design + Impl cycle to apply documentation changes.
 
-#### Step Y1. Read DOC IMPACT from Design and Impl
+#### Step Y1. Read DOC IMPACT from Scrum, Design and Impl
 
-- Read `REPO-ROOT/.github/workspace/Copilot_Design.md`. Find the `# DOC IMPACT` section (if it exists).
-- Read `REPO-ROOT/.github/workspace/Copilot_Impl.md`. Find the `# DOC IMPACT` section (if it exists).
-- Combine both into a unified list of documentation changes needed.
-  - If neither file has a `# DOC IMPACT` section, report "No doc impact found" and stop.
+- Read `REPO-ROOT/.github/workspace/Copilot_Scrum.md`. Find the `# DOC IMPACT` section (if it exists).
+- Read all backup folders in `REPO-ROOT/.github/backup/`, look for `Copilot_Design.md` and `Copilot_Impl.md` in each.
+  - Find the `# DOC IMPACT` section in each file (if it exists).
+- Combine all into a unified list of documentation changes needed.
+  - If no file has a `# DOC IMPACT` section, report "No doc impact found" and stop.
 
 #### Step Y2. Initialize scratch pad
 
@@ -188,9 +189,51 @@ This action is used after a Design + Impl cycle to apply documentation changes.
 #### Step Y6. Backup workspace
 
 - After changes are committed to `doc/`, execute `REPO-ROOT/.github/scripts/copilotBackup.ps1`.
-  - This backs up `Copilot_Design.md`, `Copilot_Impl.md`, and `Copilot_Doc.md` to `.github/backup/<timestamp>/` and cleans the workspace.
-  - The backup preserves a snapshot of the entire Design-Impl-Doc cycle for future reference.
-- After the script completes, the workspace is clean and ready for the next cycle.
+  - This backs up `Copilot_Scrum.md`, `Copilot_Design.md`, `Copilot_Impl.md`, and `Copilot_Doc.md` to `.github/backup/<timestamp>/` and cleans the workspace.
+  - The backup preserves a snapshot of the entire Scrum cycle for future reference.
+- After the script completes, the workspace is clean and ready for the next Scrum cycle.
+
+### Learn from Completed Cycle (only when "# Learn" appears in the LATEST chat message)
+
+Ignore this section if there is no "# Learn" in the LATEST chat message.
+This action is used after a completed Scrum cycle to extract lessons learned from all tasks.
+
+#### Step L1. Gather Materials
+
+- Read `REPO-ROOT/.github/workspace/Copilot_Scrum.md` to understand the overall problem and task breakdown.
+- Read all backup folders in `REPO-ROOT/.github/backup/`, ordered by timestamp (oldest first).
+  - Each backup folder may contain `Copilot_Design.md` and `Copilot_Impl.md` from a completed task.
+- For each backup, note:
+  - What was designed vs. what was actually implemented (compare Design's SPECIFICATION with Impl's EXECUTION LOG).
+  - What fixing attempts were needed (from `# FIXING ATTEMPTS`).
+  - What user edits were spotted (from `## User Update Spotted`).
+  - What DOC IMPACT was noted.
+
+#### Step L2. Identify Patterns
+
+- Across all tasks, find patterns:
+  - **Common mistakes**: Recurring compile errors or test failures — what category of mistake keeps happening?
+  - **User preferences**: What did the user consistently edit after the agent's implementation? This reveals the user's coding taste and design philosophy.
+  - **Effective strategies**: Which approaches worked well on the first try?
+  - **Ineffective strategies**: Which approaches led to multiple fixing attempts?
+
+#### Step L3. Write Learning Document
+
+- Override `Copilot_Doc.md` with `# !!!DOC RESEARCH!!!`.
+- Add `# TOPIC` with content: "Learning from Scrum cycle".
+- Under `# INSIGHT`, write:
+  - `## Coding Lessons`: Patterns in compile/test failures and how they were resolved.
+  - `## User Preferences`: What the user's edits reveal about their coding style and design philosophy.
+  - `## Process Lessons`: What worked well in the Scrum→Design→Impl flow and what could improve.
+  - `## Knowledge Gaps`: Information that was missing in `doc/` and would have helped during implementation.
+- Under `# DOCUMENT`, draft a concise summary suitable for adding to `doc/` (e.g. as `doc/lessons-learned.md` or appended to an existing doc).
+
+#### Step L4. Apply Learnings
+
+- After I review the findings:
+  - If I say "commit": write the document to `doc/` and update `doc/README.md`.
+  - If I say "skip": discard the document.
+  - If I provide feedback: revise accordingly.
 
 ## Writing Rules for doc/ Files
 

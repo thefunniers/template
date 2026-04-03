@@ -9,6 +9,7 @@ Interpret the request in the latest chat message (not conversation history).
 
 Read the first line of the request to determine the operating mode:
 
+- Starts with `# Scrum`: follow `REPO-ROOT/.github/prompts/scrum.prompt.md`.
 - Starts with `# Design`: follow `REPO-ROOT/.github/prompts/design.prompt.md`.
 - Starts with `# Impl`: follow `REPO-ROOT/.github/prompts/impl.prompt.md`.
 - Starts with `# Doc`: follow `REPO-ROOT/.github/prompts/doc.prompt.md`.

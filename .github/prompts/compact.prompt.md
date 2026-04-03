@@ -64,13 +64,14 @@ Describe the repository so a new agent can orient itself:
 
 Explain the Design → Impl → Doc lifecycle precisely:
 
-- **Design Mode** (`# Design`): How `Copilot_Design.md` is structured (TASKS + SPECIFICATION), the three sub-commands (`# Problem`, `# Update`, `# Spec`), and what the document must contain before Impl begins.
-- **Impl Mode** (`# Impl`): How `Copilot_Impl.md` is structured (EXECUTION LOG, FIXING ATTEMPTS), how tasks are executed one by one with compile+test after each, and how to resume after interruption.
-- **Doc Mode** (`# Doc`): The five sub-commands (`# Setup`, `# Topic`, `# Ask`, `# Write`, `# Sync`), how `Copilot_Doc.md` is used as a scratch pad, and the `# Sync` → commit → backup flow.
+- **Scrum Mode** (`# Scrum`): How `Copilot_Scrum.md` is structured (TASKS with checkboxes), the two sub-commands (`# Problem`, `# Update`), and how tasks are tracked across Design-Impl cycles.
+- **Design Mode** (`# Design`): How `Copilot_Design.md` takes a single task from Scrum (TASK DESCRIPTION + INSIGHTS AND REASONING + SPECIFICATION), the three sub-commands (`# Task`, `# Update`, `# Spec`), and what the document must contain before Impl begins.
+- **Impl Mode** (`# Impl`): How `Copilot_Impl.md` is structured (EXECUTION LOG, FIXING ATTEMPTS), how a single task is implemented with compile+test, and how backup runs after verification.
+- **Doc Mode** (`# Doc`): The six sub-commands (`# Setup`, `# Topic`, `# Ask`, `# Write`, `# Sync`, `# Learn`), how `Copilot_Doc.md` is used as a scratch pad, the `# Sync` → commit → backup flow, and the `# Learn` post-cycle reflection.
 - **Compact Mode** (`# Compact`): Used during project handoff — when passing knowledge from a completed project to an agent starting a new one; the output is `Copilot_Handoff.md`.
 - **Direct Mode**: No prefix — used for quick changes, discussions, or questions outside the formal workflow.
-- **DOC IMPACT**: How Design and Impl modes flag documentation needs, and how `# Doc # Sync` picks them up.
-- **Backup**: How `copilotBackup.ps1` archives the workspace after a completed cycle.
+- **DOC IMPACT**: How Scrum, Design and Impl modes flag documentation needs, and how `# Doc # Sync` picks them up.
+- **Backup**: How `copilotBackup.ps1 -TaskOnly` archives Design+Impl after each task, and full backup after `# Doc # Sync`.
 
 ### Section 4 — Coding Conventions & Guidelines
 

@@ -1,15 +1,32 @@
 # Backup Copilot workspace files to .github/backup/<timestamp>/
-# Called by agent after "# Doc # Sync" completes.
+#
+# Usage:
+#   copilotBackup.ps1              — Full backup: Scrum + Design + Impl + Doc (after Doc Sync)
+#   copilotBackup.ps1 -TaskOnly    — Task backup: Design + Impl only (after each Impl completes)
+
+param(
+    [switch]$TaskOnly
+)
 
 $workspaceDir = Resolve-Path -LiteralPath "$PSScriptRoot\..\workspace"
 $backupRoot   = "$PSScriptRoot\..\backup"
 
-# Collect files to backup
-$filesToBackup = @(
-    "Copilot_Design.md",
-    "Copilot_Impl.md",
-    "Copilot_Doc.md"
-)
+# Collect files to backup based on mode
+if ($TaskOnly) {
+    $filesToBackup = @(
+        "Copilot_Design.md",
+        "Copilot_Impl.md"
+    )
+    $cleanupMessage = "Task workspace cleaned. Ready for next Design-Impl cycle."
+} else {
+    $filesToBackup = @(
+        "Copilot_Scrum.md",
+        "Copilot_Design.md",
+        "Copilot_Impl.md",
+        "Copilot_Doc.md"
+    )
+    $cleanupMessage = "Full workspace cleaned. Ready for next Scrum cycle."
+}
 
 $existing = @()
 foreach ($name in $filesToBackup) {
@@ -48,4 +65,4 @@ foreach ($filePath in $existing) {
     Remove-Item -Path $filePath -Force
 }
 
-Write-Host "Workspace cleaned. Ready for next Design-Impl-Doc cycle."
+Write-Host $cleanupMessage
