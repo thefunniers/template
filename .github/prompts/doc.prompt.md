@@ -188,10 +188,16 @@ This action is used after a Design + Impl cycle to apply documentation changes.
 
 #### Step Y6. Backup workspace
 
-- After changes are committed to `doc/`, execute `REPO-ROOT/.github/scripts/copilotBackup.ps1`.
-  - This backs up `Copilot_Scrum.md`, `Copilot_Design.md`, `Copilot_Impl.md`, and `Copilot_Doc.md` to `.github/backup/<timestamp>/` and cleans the workspace.
-  - The backup preserves a snapshot of the entire Scrum cycle for future reference.
-- After the script completes, the workspace is clean and ready for the next Scrum cycle.
+- After changes are committed to `doc/`, check `Copilot_Scrum.md` to determine if all tasks are completed:
+  - If **every task** in the bullet list is marked `[v]` (all done):
+    - Execute `REPO-ROOT/.github/scripts/copilotBackup.ps1`.
+    - This backs up `Copilot_Scrum.md`, `Copilot_Design.md`, `Copilot_Impl.md`, and `Copilot_Doc.md` to `.github/backup/<timestamp>/` and cleans the workspace.
+    - The backup preserves a snapshot of the entire Scrum cycle for future reference.
+    - After the script completes, the workspace is clean and ready for the next Scrum cycle.
+  - If **any task** is still marked `[ ]` or `[x]` (not all done — mid-cycle sync):
+    - Execute `REPO-ROOT/.github/scripts/copilotBackup.ps1 -DocOnly`.
+    - This backs up only `Copilot_Doc.md` and cleans it from the workspace.
+    - `Copilot_Scrum.md` is preserved so the remaining tasks can continue with Design-Impl cycles.
 
 ### Learn from Completed Cycle (only when "# Learn" appears in the LATEST chat message)
 

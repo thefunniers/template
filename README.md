@@ -40,7 +40,7 @@ Scrum（一次） → [Design → Impl] × N 个任务 → Doc（一次）
   - 临时工作区，保存 Scrum 文档、设计稿、实现日志和文档研究草稿。
   - 这些文件默认不进版本控制。
 - `.github/scripts/`
-  - `copilotBackup.ps1`：备份脚本，支持 `-TaskOnly`（单任务备份）和完整备份两种模式。
+  - `copilotBackup.ps1`：备份脚本，支持三种模式：`-TaskOnly`（单任务备份）、`-DocOnly`（中途文档同步备份）和完整备份。
 - `.github/backup/`
   - 备份存档目录，按时间戳分文件夹。
 - `MANUAL.md`
@@ -106,7 +106,7 @@ next
 
 用途：
 
-- 在所有任务完成后，同步文档变更到 `doc/`。
+- 同步文档变更到 `doc/`。支持中途同步（Scrum 未完成时仅备份 Doc）和完整同步（所有任务完成后备份全部 workspace）。
 - 支持 `# Learn` 子命令从已完成任务中提取经验教训。
 - 使用 `.github/workspace/Copilot_Doc.md` 作为中间研究稿。
 

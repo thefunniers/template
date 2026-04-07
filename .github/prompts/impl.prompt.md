@@ -36,7 +36,7 @@ Ignore this section if there is no "# Impl" in the LATEST chat message.
 - Read `Copilot_Design.md` thoroughly.
 - Read `doc/README.md`. If any linked document is relevant to the task, read it.
 - Override `Copilot_Impl.md` with `# !!!IMPL!!!` and empty sections (`# UPDATES`, `# EXECUTION LOG`, `# FIXING ATTEMPTS`).
-- Start executing the task.
+- **Write `Copilot_Impl.md` to disk now** before proceeding to Step 2.
 
 ### Update during Implementation (only when "# Update" appears in the LATEST chat message)
 
@@ -56,6 +56,7 @@ Ignore this section if there is no "# Update" in the LATEST chat message.
   - Indentation and line breaks must match the surrounding code.
   - Coding style must follow the project's formatter conventions.
 - After applying changes, log them in `# EXECUTION LOG` under `### Changes Made`.
+- **Write `Copilot_Impl.md` to disk now** before proceeding to Step 3.
 
 ### Update Build Config (if needed)
 
@@ -81,6 +82,7 @@ Ignore this section if there is no "# Update" in the LATEST chat message.
     - Explain why you think it fixes the issue.
   - Recompile. Repeat until clean build.
 - Log build result in `### Build Result`.
+- **Write `Copilot_Impl.md` to disk now** before proceeding to Step 4.
 
 ## Step 4. Test
 
@@ -94,6 +96,7 @@ Ignore this section if there is no "# Update" in the LATEST chat message.
   - Remove temporary logging after the fix.
   - Recompile and retest. Repeat until all tests pass.
 - Log test result in `### Test Result`.
+- **Write `Copilot_Impl.md` to disk now** before proceeding to Step 5.
 
 ## Step 5. Verify Coding Style
 

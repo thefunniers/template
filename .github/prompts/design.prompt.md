@@ -44,6 +44,7 @@ Ignore this section if there is no "# Task" in the LATEST chat message.
   - At the moment, `Copilot_Design.md` may contain old content from previous tasks. Always clean it up.
 - Copy the full task description (the `## TASK No.X` heading and everything under it, up to the next `## TASK` or the end of `# TASKS`) under `# TASK DESCRIPTION`.
 - Add an empty `# UPDATES` section after `# TASK DESCRIPTION`.
+- **Write `Copilot_Design.md` to disk now** before proceeding to Step 2.
 
 ### Update current Document (only when "# Update" appears in the LATEST chat message)
 
@@ -90,6 +91,7 @@ I want to refine only the specification.
   - What files are affected and why.
   - Any design decisions and the reasoning behind them.
   - Evidence from source code or `doc/`.
+- **Write `Copilot_Design.md` to disk now** before proceeding to Step 4.
 
 ## Step 4. Write the Specification
 
@@ -101,6 +103,7 @@ I want to refine only the specification.
 - This specification is the single source of truth for the Impl phase. Be precise.
 - The specification must contain actual code that can be applied to the source files. This is what separates Design from Scrum — Design produces executable-level detail.
 - Keep code consistent with existing patterns (check similar files).
+- **Write `Copilot_Design.md` to disk now** before proceeding to Step 5.
 
 ## Step 5. Fill BUILD & TEST PLAN
 

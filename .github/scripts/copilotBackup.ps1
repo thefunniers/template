@@ -1,15 +1,17 @@
 # Backup Copilot workspace files to .github/backup/<timestamp>/
 #
 # Usage:
-#   copilotBackup.ps1              — Full backup: Scrum + Design + Impl + Doc (after Doc Sync)
+#   copilotBackup.ps1              — Full backup: Scrum + Design + Impl + Doc (after Doc Sync when all tasks done)
 #   copilotBackup.ps1 -TaskOnly    — Task backup: Design + Impl only (after each Impl completes)
+#   copilotBackup.ps1 -DocOnly     — Doc backup: Doc only (after mid-cycle Doc Sync)
 
 param(
-    [switch]$TaskOnly
+    [switch]$TaskOnly,
+    [switch]$DocOnly
 )
 
 $workspaceDir = Resolve-Path -LiteralPath "$PSScriptRoot\..\workspace"
-$backupRoot   = "$PSScriptRoot\..\backup"
+$backupRoot = "$PSScriptRoot\..\backup"
 
 # Collect files to backup based on mode
 if ($TaskOnly) {
@@ -18,7 +20,14 @@ if ($TaskOnly) {
         "Copilot_Impl.md"
     )
     $cleanupMessage = "Task workspace cleaned. Ready for next Design-Impl cycle."
-} else {
+}
+elseif ($DocOnly) {
+    $filesToBackup = @(
+        "Copilot_Doc.md"
+    )
+    $cleanupMessage = "Doc workspace cleaned. Scrum cycle continues."
+}
+else {
     $filesToBackup = @(
         "Copilot_Scrum.md",
         "Copilot_Design.md",

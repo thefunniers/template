@@ -36,14 +36,21 @@
 │       │                       （清理 Design+Impl，保留 Scrum）
 └───────┘ 取下一个任务，重复 Design→Impl
         │
-        │  （所有任务完成后）
+        │  （可在任意时刻同步文档）
         ▼
 # Doc + # Sync             ──→  落盘到 doc/
+        │
+        ├─  任务未全部完成  ─→  备份 -DocOnly（仅清理 Doc，保留 Scrum）
+        │                       →  继续 Design→Impl 剩余任务
+        │
+        └─  所有任务完成    ─→  完整备份（清理全部 workspace）
+                                →  进入下一轮 Scrum
+
 # Doc + # Learn            ──→  提取经验教训
         │
         ▼
-自动备份（完整）            ──→  .github/backup/<timestamp>/
-                                （清理全部 workspace，进入下一轮）
+自动备份（条件判断）        ──→  .github/backup/<timestamp>/
+                                （所有任务完成→完整备份；否则→仅备份 Doc）
 ```
 
 ---
@@ -182,14 +189,19 @@ Agent 会读 `Copilot_Impl.md`，从中断处继续。
 
 基于研究内容起草文档。审阅后说 **"commit"** 即可落盘到 `doc/`。
 
-### 同步文档（所有任务完成后）
+### 同步文档
 
 ```
 # Doc
 # Sync
 ```
 
-读取所有备份文件中的 DOC IMPACT，研究变更，起草更新。说 **"commit"** 落盘，然后自动备份全部 workspace。
+读取所有备份文件中的 DOC IMPACT，研究变更，起草更新。说 **“commit”** 落盘。
+
+备份行为取决于任务完成状态：
+
+- **所有任务已完成**：运行 `copilotBackup.ps1`（完整备份），清空全部 workspace，进入下一轮 Scrum。
+- **任务未全部完成**：运行 `copilotBackup.ps1 -DocOnly`，仅备份清理 Doc，保留 Scrum，可继续剩余任务。
 
 ### 提取经验教训
 
@@ -240,7 +252,7 @@ Agent 会读 `Copilot_Impl.md`，从中断处继续。
 | `.github/workspace/Copilot_Impl.md` | 单任务实现日志（每任务覆写） |
 | `.github/workspace/Copilot_Doc.md` | 文档研究草稿 |
 | `.github/workspace/Copilot_Handoff.md` | 上下文压缩交接文档 |
-| `.github/scripts/copilotBackup.ps1` | 备份脚本，支持 `-TaskOnly` 和完整模式 |
+| `.github/scripts/copilotBackup.ps1` | 备份脚本，支持 `-TaskOnly`、`-DocOnly` 和完整模式 |
 | `.github/backup/` | 备份存档目录（按时间戳分文件夹） |
 
 ---
